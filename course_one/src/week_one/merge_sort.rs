@@ -1,43 +1,43 @@
-fn merge(x: &[i32], y: &[i32]) -> Vec<i32> {
-    let n = x.len() + y.len();
-    let mut result = Vec::new();
-    result.reserve_exact(n);
+fn merge<T: Ord + Copy>(nums: &mut [T]) {
+    let n = nums.len();
+    let (left, right) = (&nums[..n / 2], &nums[n / 2..]);
+
+    let mut res = Vec::with_capacity(n);
 
     let (mut i, mut j) = (0, 0);
-    while i < x.len() && j < y.len() {
-        if x[i] < y[j] {
-            result.push(x[i]);
+    loop {
+        if left[i] < right[j] {
+            res.push(left[i]);
             i += 1;
         } else {
-            result.push(y[j]);
+            res.push(right[j]);
             j += 1;
+        }
+
+        if i >= left.len() || j >= right.len() {
+            break;
         }
     }
 
-    while i < x.len() {
-        result.push(x[i]);
-        i += 1
+    while i < left.len() {
+        res.push(left[i]);
+        i += 1;
+    }
+    while j < right.len() {
+        res.push(right[j]);
+        j += 1;
     }
 
-    while j < y.len() {
-        result.push(y[j]);
-        j += 1
-    }
-
-    result
+    nums.copy_from_slice(&res);
 }
 
-fn merge_sort(a: &[i32]) -> Vec<i32> {
-    let n = a.len();
-    if n == 1 {
-        return a.into();
+fn merge_sort<T: Ord + Copy>(nums: &mut [T]) {
+    let n = nums.len();
+    if n != 1 {
+        merge_sort(&mut nums[..n / 2]);
+        merge_sort(&mut nums[n / 2..]);
+        merge(nums);
     }
-
-    let (x, y) = (&a[..n / 2], &a[n / 2..]);
-    let x_sorted = merge_sort(x);
-    let y_sorted = merge_sort(y);
-
-    merge(&x_sorted, &y_sorted)
 }
 
 #[cfg(test)]
@@ -46,15 +46,20 @@ mod test {
 
     #[test]
     fn merge_test() {
-        let x = vec![1, 3, 5, 7];
-        let y = vec![2, 4, 6];
+        let mut nums = vec![
+            1, 3, 5, // left
+            2, 4, 6, 7, // right
+        ];
+        merge(&mut nums);
 
-        assert_eq!(vec![1, 2, 3, 4, 5, 6, 7], merge(&x, &y));
+        assert_eq!(vec![1, 2, 3, 4, 5, 6, 7], nums);
     }
 
     #[test]
     fn merge_sort_test() {
-        let x = vec![2, 5, 3, 1, 4];
-        assert_eq!(vec![1, 2, 3, 4, 5], merge_sort(&x));
+        let mut nums = vec![2, 5, 3, 1, 4];
+        merge_sort(&mut nums);
+
+        assert_eq!(vec![1, 2, 3, 4, 5], nums);
     }
 }

@@ -1,3 +1,2 @@
-mod exercise;
-mod integers_multiplication;
+mod integer_multiplication;
 mod merge_sort;
