@@ -1,1 +1,2 @@
+mod exercise;
 mod quicksort;
