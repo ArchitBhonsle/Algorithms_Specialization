@@ -160,7 +160,7 @@ mod tests {
 
         let handler = builder
             .spawn(|| {
-                let mut file = File::open("./src/week_one/scc.txt").unwrap();
+                let mut file = File::open("./data/scc.txt").unwrap();
                 let mut buffer = String::new();
                 file.read_to_string(&mut buffer).unwrap();
 
