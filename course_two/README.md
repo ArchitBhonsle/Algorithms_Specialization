@@ -5,4 +5,5 @@ TODO:
 - [ ] Implement Heaps.
 - [ ] Implement a Binary Search Tree.
 - [ ] Implement a Red-Black Tree.
+- [ ] Implement Hash Tables
 
