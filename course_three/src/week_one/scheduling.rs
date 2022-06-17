@@ -40,10 +40,14 @@ fn sequence_jobs_wrong(jobs: &Vec<Job>) -> Vec<Job> {
     let mut jobs = jobs.clone();
 
     jobs.sort_by(|a, b| {
-        let a_factor = a.weight as f64 - a.length as f64;
-        let b_factor = b.weight as f64 - b.length as f64;
+        let a_factor = a.weight as isize - a.length as isize;
+        let b_factor = b.weight as isize - b.length as isize;
 
-        b_factor.partial_cmp(&a_factor).unwrap()
+        if a_factor == b_factor {
+            b.weight.cmp(&a.weight)
+        } else {
+            b_factor.cmp(&a_factor)
+        }
     });
 
     jobs

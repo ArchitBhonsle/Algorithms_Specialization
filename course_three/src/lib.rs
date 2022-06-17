@@ -1,4 +1,5 @@
 #![allow(dead_code)]
+#![feature(map_first_last)]
 
 mod week_one;
 mod week_two;
