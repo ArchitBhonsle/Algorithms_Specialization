@@ -1,5 +1,3 @@
-use std::fmt;
-
 #[derive(Debug)]
 struct Point {
     x: f32,
@@ -24,12 +22,6 @@ impl Set {
 
     fn reset(&mut self, n: usize) {
         self.0 &= !(1 << n);
-    }
-}
-
-impl fmt::Debug for Set {
-    fn fmt(&self, f: &mut fmt::Formatter<'_>) -> fmt::Result {
-        write!(f, "Set({:b})", self.0)
     }
 }
 
@@ -94,7 +86,7 @@ fn tsp(points: &[Point]) -> f32 {
     println!("setss generated");
 
     // let mut cache: HashMap<(Set, usize), f64> = HashMap::new();
-    let mut cache = vec![vec![6.9; n]; 1 << n];
+    let mut cache = vec![vec![0.; n]; 1 << n];
 
     for s in 0..(1 << n) {
         if s == 1 {
@@ -209,4 +201,3 @@ mod tests {
         dbg!(tsp(&points));
     }
 }
-
